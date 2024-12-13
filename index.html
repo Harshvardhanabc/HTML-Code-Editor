@@ -43,7 +43,7 @@
         .editor-container {
             display: flex;
             flex-direction: column;
-            height: calc(100% - 50px);
+            height: calc(100% - 90px);
             overflow: hidden;
         }
 
@@ -51,6 +51,29 @@
             border: none;
             border-top: 2px solid #ccc;
             margin: 0;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f4f4f4;
+            padding: 10px;
+            gap: 10px;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #fff;
+        }
+
+        .buttons button:hover {
+            background-color: #0056b3;
         }
 
         @media (max-width: 600px) {
@@ -66,7 +89,7 @@
             font-size: 14px;
             color: #000000;
             opacity: 0.7;
-            pointer-events: none; /* Prevent the text from interfering with clicks */
+            pointer-events: none;
         }
     </style>
 </head>
@@ -79,10 +102,13 @@
         <hr>
         <iframe id="preview"></iframe>
     </div>
-
+    <div class="buttons">
+        <button id="downloadBtn">Download</button>
+    </div>
     <script>
         const codeEditor = document.getElementById('codeEditor');
         const preview = document.getElementById('preview');
+        const downloadBtn = document.getElementById('downloadBtn');
 
         codeEditor.addEventListener('input', () => {
             const content = codeEditor.value;
@@ -92,6 +118,17 @@
         // Preload some default content (optional)
         codeEditor.value = "<h1>Hello, Friends!</h1>\n<h2>Harshvardhan welcomes you</h2>\n<p>Start editing to see live preview!</p>";
         preview.srcdoc = codeEditor.value;
+
+        // Download functionality
+        downloadBtn.addEventListener('click', () => {
+            const content = codeEditor.value;
+            const blob = new Blob([content], { type: 'text/html' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'index.html';
+            a.click();
+            URL.revokeObjectURL(a.href);
+        });
     </script>
     <div class="watermark">@Harshvardhan</div>
 </body>
